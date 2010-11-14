@@ -19,11 +19,10 @@ define :apt_repo,
 
   params[:distribution] ||= node[:lsb][:codename]
 
-  keyserver = params[:keyserver]
-  key_id = params[:key_id]
-  key_installed = "apt-key list | grep #{key_id}"
-
-  if key_id
+  if params[:key_id]
+    key_id = params[:key_id]
+    keyserver = params[:keyserver]
+    key_installed = "apt-key list | grep #{key_id}"
     if keyserver
       execute "apt-key adv --keyserver #{keyserver} --recv-keys #{key_id}" do
         not_if key_installed
