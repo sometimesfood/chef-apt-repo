@@ -2,7 +2,7 @@ define :apt_repo,
     :key_package => nil,
     :key_id => nil,
     :key_url => nil,
-    :keyserver => nil,
+    :keyserver => "subkeys.pgp.net",
     :url => nil,
     :distribution => nil,
     :components => "main" do
