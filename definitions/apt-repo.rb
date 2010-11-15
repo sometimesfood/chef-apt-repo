@@ -7,10 +7,8 @@ define :apt_repo,
     :distribution => nil,
     :components => "main" do
 
-  unless params[:key_package] or
-      (params[:key_id] and params[:keyserver]) or
-      (params[:key_id] and params[:key_url])
-    raise "Cannot find key_package or (key_id and (keyserver or key_url)"
+  unless params[:key_package] or params[:key_id]
+    raise "Cannot find key_package or key_id"
   end
 
   unless params[:url]
@@ -21,15 +19,16 @@ define :apt_repo,
 
   if params[:key_id]
     key_id = params[:key_id]
+    key_url = params[:key_url]
     keyserver = params[:keyserver]
     key_installed = "apt-key list | grep #{key_id}"
-    if keyserver
-      execute "apt-key adv --keyserver #{keyserver} --recv-keys #{key_id}" do
-        not_if key_installed
-      end
-    elsif key_url
+    if key_url
       package "wget"
       execute "wget -O - #{key_url} | apt-key add -" do
+        not_if key_installed
+      end
+    elsif keyserver
+      execute "apt-key adv --keyserver #{keyserver} --recv-keys #{key_id}" do
         not_if key_installed
       end
     end
