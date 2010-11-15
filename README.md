@@ -8,6 +8,10 @@ Documentation
 
 To be done. Promise.
 
+Until then you might want to have a peek into the [recipes
+directory](https://github.com/sometimesfood/chef-apt-repo/tree/master/recipes/)
+for some usage examples.
+
 Copyright
 =========
 
