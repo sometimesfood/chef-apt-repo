@@ -23,8 +23,7 @@ define :apt_repo,
     keyserver = params[:keyserver]
     key_installed = "apt-key list | grep #{key_id}"
     if key_url
-      package "wget"
-      execute "wget -O - #{key_url} | apt-key add -" do
+      execute "apt-key adv --fetch #{key_url}" do
         not_if key_installed
       end
     elsif keyserver
