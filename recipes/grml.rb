@@ -3,5 +3,4 @@ apt_repo "grml" do
   key_package "grml-debian-keyring"
   url "http://deb.grml.org/"
   distribution "grml-stable"
-  components "main"
 end
