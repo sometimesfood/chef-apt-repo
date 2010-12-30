@@ -1,16 +1,92 @@
 chef-apt-repo
-=====================
+=============
 
 Set up APT repositories for Debian.
 
 Documentation
 -------------
 
-To be done. Promise.
+`chef-apt-repo` lets you manage apt repositories with
+[Chef](http://opscode.com/chef).
 
-Until then you might want to have a peek into the [recipes
-directory](https://github.com/sometimesfood/chef-apt-repo/tree/master/recipes/)
-for some usage examples.
+### Simple example
+
+To add a repo for a package named "foobar" when using `chef-apt-repo`,
+you might do something like this in your chef recipes:
+
+    apt_repo "foobar" do
+      key_package "foobar-debian-keyring"
+      url "http://deb.example.org/"
+    end
+
+This would add a file called `foobar.list` containing a deb line with
+the specified URL to your `/etc/apt/sources.list.d` and install the
+package `foobar-debian-keyring` (which is assumed to contain the GPG
+keys used to sign the packages in this repo).
+
+### Obtaining GPG keys from a keyserver
+
+Of course you shouldn't just install random keyrings so it might be a
+better idea to actually get the key you want from a keyserver before
+installing the key package:
+
+    apt_repo "foobar" do
+      key_package "foobar-debian-keyring"
+      url "http://deb.example.org/"
+      key_id "8BADF00D"
+      keyserver "keyserver.example.org" # defaults to subkeys.pgp.net
+    end
+
+You could also omit the `key_package` completely, but if there is a
+key package it's usually a good idea to install it, since your apt
+keyring is always up-to-date that way.
+
+### Downloading GPG keys via HTTP
+
+In case you prefer to get your keys via HTTP instead of a keyserver,
+you can do so by specifying a `key_url` in addition to the `key_id`:
+
+    apt_repo "foobar" do
+      key_id "8BADF00D"
+      key_url "http://keys.example.org/foobar.gpg.key"
+      url "http://deb.example.org/"
+    end
+
+(You still need the key id because it is used in order to determine
+whether the key is already installed.)
+
+### Specifying distribution and components
+
+The commands above don't specify a distribution or a list of
+components, so `distribution` defaults to the current distribution's
+LSB codename (for example "lucid" or "squeeze"), while `components`
+defaults to the "main" component.
+
+If you want to specify a different distribution or components, you can
+do so by adding the corresponding definitions:
+
+    apt_repo "foobar" do
+      key_id "8BADF00D"
+      key_package "foobar-debian-keyring"
+      url "http://deb.example.org/"
+      distribution "foobar-stable"
+      components ["free", "non-free"]
+    end
+
+This would roughly correspond to something like this:
+
+    export APT_SOURCE="http://deb.example.org/ foobar-stable free non-free"
+    echo "deb     ${APT_SOURCE}" >  /etc/apt/sources.list.d/foobar.list
+    echo "deb-src ${APT_SOURCE}" >> /etc/apt/sources.list.d/foobar.list
+    apt-key adv --keyserver subkeys.pgp.net --recv-keys 8BADF00D
+    aptitude update
+    aptitude install foobar-debian-keyring
+
+### Real world examples
+
+If you are interested in seeing some simple recipes that use
+`chef-apt-repo` you might want to have a peek into the [recipes
+directory](https://github.com/sometimesfood/chef-apt-repo/tree/master/recipes/).
 
 Copyright
 ---------
