@@ -75,9 +75,10 @@ do so by adding the corresponding definitions:
 
 This would roughly correspond to something like this:
 
-    export APT_SOURCE="http://deb.example.org/ foobar-stable free non-free"
-    echo "deb     ${APT_SOURCE}" >  /etc/apt/sources.list.d/foobar.list
-    echo "deb-src ${APT_SOURCE}" >> /etc/apt/sources.list.d/foobar.list
+    cat > /etc/apt/sources.list.d/foobar.list <<EOF
+    deb     http://deb.example.org/ foobar-stable free non-free
+    deb-src http://deb.example.org/ foobar-stable free non-free
+    EOF
     apt-key adv --keyserver subkeys.pgp.net --recv-keys 8BADF00D
     aptitude update
     aptitude install foobar-debian-keyring
