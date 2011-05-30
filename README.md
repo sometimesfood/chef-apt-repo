@@ -38,7 +38,7 @@ installing the key package:
       key_package "foobar-debian-keyring"
       url "http://deb.example.org/"
       key_id "8BADF00D"
-      keyserver "keyserver.example.org" # defaults to subkeys.pgp.net
+      keyserver "keyserver.example.org" # defaults to keys.gnupg.net
     end
 
 You could also omit the `key_package` completely, but if there is a
