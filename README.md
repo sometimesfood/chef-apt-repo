@@ -11,6 +11,10 @@ Documentation
 
 ### Simple example
 
+To add an apt source for a PPA named "foobar/quux" just do this:
+
+    ppa "foobar/quux"
+
 To add a repo for a package named "foobar" when using `chef-apt-repo`,
 you might do something like this in your chef recipes:
 
