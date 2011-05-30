@@ -83,7 +83,7 @@ This would roughly correspond to something like this:
     deb     http://deb.example.org/ foobar-stable free non-free
     deb-src http://deb.example.org/ foobar-stable free non-free
     EOF
-    apt-key adv --keyserver subkeys.pgp.net --recv-keys 8BADF00D
+    apt-key adv --keyserver keys.gnupg.net --recv-keys 8BADF00D
     aptitude update
     aptitude install foobar-debian-keyring
 
