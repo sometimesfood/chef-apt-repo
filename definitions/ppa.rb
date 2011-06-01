@@ -1,6 +1,7 @@
 define :ppa,
     :key_id => nil,
-    :distribution => nil do
+    :distribution => nil,
+    :description => nil do
 
   # ppa name should have the form "user/archive"
   unless params[:name].count('/') == 1
@@ -10,6 +11,9 @@ define :ppa,
   ppa = params[:name]
   user, archive = ppa.split('/')
   key_id = params[:key_id]
+
+  description = params[:description]
+  description = description ? "PPA: #{description}" : "ppa:#{ppa}"
 
   unless key_id
     # use the Launchpad API to get the correct archive signing key id
@@ -23,9 +27,10 @@ define :ppa,
 
   # let the apt_repo definition do the heavy lifting
   apt_repo "#{user}_#{archive}.ppa" do
-    key_id key_id
-    distribution params[:distribution]
-    keyserver "keyserver.ubuntu.com"
     url "http://ppa.launchpad.net/#{ppa}/ubuntu"
+    key_id key_id
+    keyserver "keyserver.ubuntu.com"
+    distribution params[:distribution]
+    description description
   end
 end
