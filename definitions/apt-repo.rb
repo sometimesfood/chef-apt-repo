@@ -5,7 +5,8 @@ define :apt_repo,
     :keyserver => "keys.gnupg.net",
     :url => nil,
     :distribution => nil,
-    :components => "main" do
+    :components => "main",
+    :description => nil do
 
   unless params[:key_package] or params[:key_id]
     raise "Cannot find key_package or key_id"
@@ -15,7 +16,10 @@ define :apt_repo,
     raise "Cannot find url"
   end
 
-  params[:distribution] ||= node[:lsb][:codename]
+  components = params[:components]
+  components = components.join(' ') if components.kind_of?(Array)
+  distribution = params[:distribution] || node[:lsb][:codename]
+  description = params[:description] || params[:name].capitalize
 
   if params[:key_id]
     key_id = params[:key_id]
@@ -36,10 +40,11 @@ define :apt_repo,
   directory "/etc/apt/sources.list.d"
   file "repo.list" do
     path "/etc/apt/sources.list.d/#{params[:name]}.list"
-    components = params[:components]
-    components = components.join(" ") if components.kind_of?(Array)
-    entry = "#{params[:url]} #{params[:distribution]} #{components}"
-    content "deb     #{entry}\ndeb-src #{entry}\n"
+    entry = "#{params[:url]} #{distribution} #{components}"
+    content <<EOF
+deb     #{entry} ##{description} - #{distribution}
+deb-src #{entry} ##{description} (source) - #{distribution}
+EOF
     mode "0644"
   end
 
