@@ -40,10 +40,10 @@ define :apt_repo,
   directory "/etc/apt/sources.list.d"
   file "repo.list" do
     path "/etc/apt/sources.list.d/#{params[:name]}.list"
-    entry = "#{params[:url]} #{distribution} #{components}"
+    entry = "#{params[:url]} #{distribution} #{components} ##{description}"
     content <<EOF
-deb     #{entry} ##{description} - #{distribution}
-deb-src #{entry} ##{description} (source) - #{distribution}
+deb     #{entry}
+deb-src #{entry}
 EOF
     mode "0644"
   end
