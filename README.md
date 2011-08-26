@@ -66,8 +66,9 @@ components, so `distribution` defaults to the current distribution's
 LSB codename (for example "lucid" or "squeeze"), while `components`
 defaults to the "main" component.
 
-If you want to specify a different distribution or components, you can
-do so by adding the corresponding definitions:
+If you want to specify a different distribution or components or
+enable source packages, you can do so by adding the corresponding
+definitions:
 
     apt_repo "foobar" do
       key_id "8BADF00D"
@@ -75,6 +76,7 @@ do so by adding the corresponding definitions:
       url "http://deb.example.org/"
       distribution "foobar-stable"
       components ["free", "non-free"]
+      source_packages true
     end
 
 This would roughly correspond to something like this:
