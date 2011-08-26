@@ -1,6 +1,7 @@
 define :ppa,
     :key_id => nil,
     :distribution => nil,
+    :source_packages => false,
     :description => nil do
 
   # ppa name should have the form "user/archive"
@@ -31,6 +32,7 @@ define :ppa,
     key_id key_id
     keyserver "keyserver.ubuntu.com"
     distribution params[:distribution]
+    source_packages params[:source_packages]
     description description
   end
 end

@@ -6,6 +6,7 @@ define :apt_repo,
     :url => nil,
     :distribution => nil,
     :components => "main",
+    :source_packages => false,
     :description => nil do
 
   unless params[:key_package] or params[:key_id]
@@ -37,14 +38,15 @@ define :apt_repo,
     end
   end
 
+  # only add deb-src entries if source_packages parameter was specified
+  src_entry = "#{params[:url]} #{distribution} #{components} ##{description}"
+  file_content = "deb     #{src_entry}\n"
+  file_content << "deb-src #{src_entry}\n" if params[:source_packages]
+
   directory "/etc/apt/sources.list.d"
   file "repo.list" do
     path "/etc/apt/sources.list.d/#{params[:name]}.list"
-    entry = "#{params[:url]} #{distribution} #{components} ##{description}"
-    content <<EOF
-deb     #{entry}
-deb-src #{entry}
-EOF
+    content file_content
     mode "0644"
   end
 
