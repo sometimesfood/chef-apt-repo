@@ -43,16 +43,16 @@ define :apt_repo,
   file_content = "deb     #{src_entry}\n"
   file_content << "deb-src #{src_entry}\n" if params[:source_packages]
 
+  execute "aptitude update" do
+    action :nothing
+  end
+
   directory "/etc/apt/sources.list.d"
-  file "repo.list" do
+  file "#{params[:name]}.list" do
     path "/etc/apt/sources.list.d/#{params[:name]}.list"
     content file_content
     mode "0644"
-  end
-
-  execute "aptitude update" do
-    action :nothing
-    subscribes :run, resources(:file => "repo.list"), :immediately
+    notifies :run, resources(:execute => "aptitude update"), :immediately
   end
 
   if params[:key_package]
