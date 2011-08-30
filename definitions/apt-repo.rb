@@ -38,18 +38,18 @@ define :apt_repo,
     end
   end
 
-  # only add deb-src entries if source_packages parameter was specified
-  src_entry = "#{params[:url]} #{distribution} #{components} ##{description}"
-  file_content = "deb     #{src_entry}\n"
-  file_content << "deb-src #{src_entry}\n" if params[:source_packages]
-
   execute "aptitude update" do
     action :nothing
   end
 
   directory "/etc/apt/sources.list.d"
-  file "#{params[:name]}.list" do
-    path "/etc/apt/sources.list.d/#{params[:name]}.list"
+
+  # only add deb-src entries if source_packages parameter was specified
+  src_entry = "#{params[:url]} #{distribution} #{components} ##{description}"
+  file_content = "deb     #{src_entry}\n"
+  file_content << "deb-src #{src_entry}\n" if params[:source_packages]
+
+  file "/etc/apt/sources.list.d/#{params[:name]}.list" do
     content file_content
     mode "0644"
     notifies :run, resources(:execute => "aptitude update"), :immediately
