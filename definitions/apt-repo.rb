@@ -38,7 +38,7 @@ define :apt_repo,
     end
   end
 
-  execute "aptitude update" do
+  execute "apt-get update" do
     action :nothing
   end
 
@@ -52,7 +52,7 @@ define :apt_repo,
   file "/etc/apt/sources.list.d/#{params[:name]}.list" do
     content file_content
     mode "0644"
-    notifies :run, resources(:execute => "aptitude update"), :immediately
+    notifies :run, resources(:execute => "apt-get update"), :immediately
   end
 
   if params[:key_package]
