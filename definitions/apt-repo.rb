@@ -44,11 +44,9 @@ define :apt_repo,
 
   directory "/etc/apt/sources.list.d"
 
-  url = params[:url].gsub(/^ppa:/, '')
-  src_entry = "#{url} #{distribution} #{components} ##{description}"
+  # only add deb-src entries if source_packages parameter was specified
+  src_entry = "#{params[:url]} #{distribution} #{components} ##{description}"
   file_content = "deb     #{src_entry}\n"
-
-  # only add deb-src entry if source_packages parameter was specified
   file_content << "deb-src #{src_entry}\n" if params[:source_packages]
 
   file "/etc/apt/sources.list.d/#{params[:name]}.list" do
