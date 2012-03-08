@@ -9,7 +9,8 @@ define :ppa,
     raise "Invalid PPA name"
   end
 
-  ppa = params[:name]
+  # also accept Launchpad-style ppa names
+  ppa = params[:name].gsub(/^ppa:/, '')
   user, archive = ppa.split('/')
   key_id = params[:key_id]
 
