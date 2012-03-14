@@ -99,7 +99,7 @@ Why chef-apt-repo?
 ------------------
 
 `chef-apt-repo` predates similar functionality in
-[Opscode's apt cookbook](https://github.com/opscode/cookbooks/tree/master/apt).
+[Opscode's apt cookbook](https://github.com/opscode-cookbooks/apt).
 
 While I have no plans to deprecate this cookbook just yet, I have been
 working with the Opscode team to add some missing features to their
