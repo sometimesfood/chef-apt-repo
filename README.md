@@ -95,6 +95,19 @@ If you are interested in seeing some simple recipes that use
 `chef-apt-repo` you might want to have a peek into the [recipes
 directory](https://github.com/sometimesfood/chef-apt-repo/tree/master/recipes/).
 
+Why chef-apt-repo?
+------------------
+
+`chef-apt-repo` predates similar functionality in
+[Opscode's apt cookbook](https://github.com/opscode/cookbooks/tree/master/apt).
+
+While I have no plans to deprecate this cookbook just yet, I have been
+working with the Opscode team to add some missing features to their
+cookbook.
+
+If you are starting a new project, I would suggest that you use the
+Opscode cookbook instead of this one.
+
 Copyright
 ---------
 
