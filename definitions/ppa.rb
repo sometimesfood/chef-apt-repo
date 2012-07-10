@@ -16,6 +16,8 @@ define :ppa,
 
   description = params[:description]
   description = description ? "PPA: #{description}" : "ppa:#{ppa}"
+  distribution = params[:distribution]
+  source_packages = params[:source_packages]
 
   unless key_id
     # use the Launchpad API to get the correct archive signing key id
@@ -32,8 +34,8 @@ define :ppa,
     url "http://ppa.launchpad.net/#{ppa}/ubuntu"
     key_id key_id
     keyserver "keyserver.ubuntu.com"
-    distribution params[:distribution]
-    source_packages params[:source_packages]
+    distribution distribution
+    source_packages source_packages
     description description
   end
 end
