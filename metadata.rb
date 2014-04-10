@@ -1,3 +1,4 @@
+name             "chef-apt-repo"
 maintainer       "Sebastian Boehm"
 maintainer_email "sebastian@sometimesfood.org"
 license          "MIT"
