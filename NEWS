@@ -1,4 +1,8 @@
 * apt-repo NEWS
+** 0.1.1 (2014-04-10)
+
+ - Set cookbook name in metadata.rb
+
 ** 0.1.0 (2013-09-13)
 
  - First release
