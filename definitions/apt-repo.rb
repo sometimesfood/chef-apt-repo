@@ -38,8 +38,11 @@ define :apt_repo,
     end
   end
 
-  execute "apt-get update" do
-    action :nothing
+  # prevent resource cloning
+  begin
+    resources(:execute => "apt-get update")
+  rescue Chef::Exceptions::ResourceNotFound
+    execute("apt-get update") { action :nothing }
   end
 
   directory "/etc/apt/sources.list.d"
