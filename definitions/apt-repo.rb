@@ -38,14 +38,10 @@ define :apt_repo,
     end
   end
 
-  # prevent resource cloning
-  begin
-    resources(:execute => "apt-get update")
-  rescue Chef::Exceptions::ResourceNotFound
-    execute("apt-get update") { action :nothing }
+  AptRepo.dont_clone_resource(self, :directory, '/etc/apt/sources.list.d')
+  AptRepo.dont_clone_resource(self, :execute, 'apt-get update') do
+    action :nothing
   end
-
-  directory "/etc/apt/sources.list.d"
 
   src_entry = "#{params[:url]} #{distribution} #{components} ##{description}"
   file_content = "deb     #{src_entry}\n"
