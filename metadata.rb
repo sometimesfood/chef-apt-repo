@@ -4,7 +4,7 @@ maintainer_email "sebastian@sometimesfood.org"
 license          "MIT"
 description      "Add repositories to APT sources"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.1"
+version          "0.1.2"
 
 recipe "apt-repo",            "Add repositories to APT sources"
 recipe "apt-repo::grml",      "Add Grml APT repo to APT sources"
