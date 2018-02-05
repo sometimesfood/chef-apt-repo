@@ -38,8 +38,8 @@ define :apt_repo,
     end
   end
 
-  AptRepo.dont_clone_resource(self, :directory, '/etc/apt/sources.list.d')
-  AptRepo.dont_clone_resource(self, :execute, 'apt-get update') do
+  directory '/etc/apt/sources.list.d'
+  execute 'apt-get update' do
     action :nothing
   end
 
